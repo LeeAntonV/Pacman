@@ -1,69 +1,65 @@
 package StartMenu;
 
-import javax.swing.*;
+import HighScore.HighScoreWindow;
 
-public class StartMenu extends JFrame {
-    import javax.swing.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-    public class StartMenu extends JFrame {
+public class StartMenu extends JFrame {
+    public StartMenu() {
+        setTitle("Start Menu");
 
-        public StartMenu() {
-            setTitle("Start Menu");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
 
-            setSize(400, 300);
+        setLocationRelativeTo(null);
 
-            setLocationRelativeTo(null);
+        setResizable(false);
 
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(10, 10, 10, 10);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 1, 10, 10)); // 3 rows, 1 column, with gaps
+        panel.setBackground(Color.BLACK);
 
-            JButton newGameButton = new JButton("New Game");
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            panel.add(newGameButton, gbc);
+        JButton newGameButton = new JButton("New Game");
+        newGameButton.setPreferredSize(new Dimension(getWidth(), 100));
+        panel.add(newGameButton);
 
-            JButton highScoresButton = new JButton("High Scores");
-            gbc.gridx = 0;
-            gbc.gridy = 1;
-            panel.add(highScoresButton, gbc);
+        JButton highScoresButton = new JButton("High Scores");
+        highScoresButton.setPreferredSize(new Dimension(getWidth(), 100));
+        panel.add(highScoresButton);
 
-            JButton exitButton = new JButton("Exit");
-            gbc.gridx = 0;
-            gbc.gridy = 2;
-            panel.add(exitButton, gbc);
+        JButton exitButton = new JButton("Exit");
+        exitButton.setPreferredSize(new Dimension(getWidth(), 100));
+        panel.add(exitButton);
 
-            newGameButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(null, "Starting New Game...");
-                }
-            });
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Starting New Game...");
+            }
+        });
 
-            highScoresButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(null, "Displaying High Scores...");
-                }
-            });
+        highScoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HighScoreWindow highScoreWindow = new HighScoreWindow();
+                highScoreWindow.setVisible(true);
+                dispose();
+            }
+        });
 
-            // Add action listener for "Exit" button
-            exitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Code to exit the application
-                    System.exit(0);
-                }
-            });
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
-            add(panel);
+        add(panel, BorderLayout.CENTER);
 
-            setVisible(true);
-        }
+        setVisible(true);
+    }
 }
