@@ -1,6 +1,9 @@
 package Game;
 
 public abstract class Entity {
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
+
+    public Entity(int x, int y) {
+    }
 }

@@ -1,5 +1,6 @@
 package StartMenu;
 
+import Game.Game;
 import HighScore.HighScoreWindow;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class StartMenu extends JFrame {
         setResizable(false);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 10, 10)); // 3 rows, 1 column, with gaps
+        panel.setLayout(new GridLayout(3, 1, 10, 10));
         panel.setBackground(Color.BLACK);
 
         JButton newGameButton = new JButton("New Game");
@@ -38,7 +39,9 @@ public class StartMenu extends JFrame {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Starting New Game...");
+                Game game = new Game();
+                game.setVisible(true);
+                dispose();
             }
         });
 
