@@ -1,3 +1,4 @@
+import HighScore.WriteScore;
 import StartMenu.StartMenu;
 
 import javax.swing.*;

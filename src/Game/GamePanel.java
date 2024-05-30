@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int tileSize = 56;
     private int ghostCount = 0;
 
+    public int score = 0;
     GameOver gameOver = new GameOver();
     public JFrame frame = null;
     Pacman pacman = new Pacman(7,7, tileSize);
@@ -23,13 +24,16 @@ public class GamePanel extends JPanel implements Runnable {
     Ghost[] ghosts = new Ghost[2];
     Dot[] dots = new Dot[0];
     int lifes = 0;
+    int ghostChangeCount = 0;
 
     public GamePanel(JFrame frame) {
         setFocusable(true);
         pacman.getRightImage();
 
-
+        this.score = 0;
+        System.out.println(score);
         this.frame = frame;
+        this.lifes = 3;
         ghosts[0] = blinky;
         ghosts[1] = inky;
 
@@ -74,6 +78,15 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 restart();
             }
+            if (blinky.killable || inky.killable){
+                ghostChangeCount++;
+                if (ghostChangeCount == 50){
+                    for (Ghost ghost: ghosts){
+                        ghost.killable = false;
+                    }
+                    ghostChangeCount = 0;
+                }
+            }
             pacman.updatePacmanPosition();
             pacmanOnGhost();
             pacmanOnDot();
@@ -96,6 +109,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        String scoreText = "Score: " + Integer.toString(score);
+        String lifesText=  "Lifes: " + Integer.toString(lifes);
+        g.setColor(Color.WHITE);
+        g.drawString(scoreText, 5*tileSize, 10*tileSize);
+        g.drawString(lifesText, 3*tileSize, 10*tileSize);
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[row].length; col++) {
                 if (map[row][col] == 1) {
@@ -125,6 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
                     frame.dispose();
                     run = false;
                     gameOver.setVisible(true);
+                    gameOver.score = score;
+                    System.out.println(score);
                     break;
                 }
                 lifes--;
@@ -138,6 +158,7 @@ public class GamePanel extends JPanel implements Runnable {
                 ghost.ghostX = 6;
                 ghost.ghostY = 5;
                 ghost.killable = false;
+                score += 200;
             }
             if (ghostCount == 5){
                 ghost.move(map);
@@ -150,11 +171,13 @@ public class GamePanel extends JPanel implements Runnable {
     public void pacmanOnDot(){
         for (Dot d: dots) {
             if (pacman.pacmanX == d.dotX && pacman.pacmanY == d.dotY){
+                score += 100;
                 dots = deleteDot(dots, d);
                 if (d.special){
                     for (Ghost ghost : ghosts) {
                         ghost.killable = true;
                     }
+                    ghostChangeCount = 0;
                 }
             }
         }

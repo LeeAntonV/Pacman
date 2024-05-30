@@ -1,4 +1,5 @@
 package Game;
+import HighScore.WriteScore;
 import StartMenu.StartMenu;
 
 import javax.swing.*;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameOver extends JFrame {
+    public int score = 0;
     public GameOver() {
         setTitle("Game Over");
 
@@ -38,8 +40,12 @@ public class GameOver extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = inputField.getText();
-                System.out.println("User input: " + input);
+                input.trim().replaceAll("\\s+", " ");
                 dispose();
+                if(!input.isEmpty()){
+                    System.out.println("User input: " + input);
+                    WriteScore.writeScore(input, score);
+                }
                 new StartMenu();
             }
         });
