@@ -91,28 +91,28 @@ public class Pacman extends Entity {
     public void updatePacmanPosition() {
         switch (direction) {
             case LEFT -> {
-                if (pacmanX > 0 && map[pacmanY][pacmanX - 1] == 0) {
+                if (pacmanX > 0 && map[pacmanY][pacmanX - 1] == 0 || pacmanX>0 && map[pacmanY][pacmanX - 1] == 3) {
                     pacmanX--;
                 } else if (pacmanX == 0) {
                     pacmanX = map[pacmanY].length - 1;
                 }
             }
             case RIGHT -> {
-                if (pacmanX < map[0].length - 1 && map[pacmanY][pacmanX + 1] == 0) {
+                if (pacmanX < map[0].length - 1 && map[pacmanY][pacmanX + 1] == 0 || pacmanX < map[0].length - 1 && map[pacmanY][pacmanX + 1] == 3) {
                     pacmanX++;
                 } else if (pacmanX == map[pacmanY].length - 1) {
                     pacmanX = 0;
                 }
             }
             case UP -> {
-                if (pacmanY > 0 && map[pacmanY - 1][pacmanX] == 0) {
+                if (pacmanY > 0 && map[pacmanY - 1][pacmanX] == 0 || pacmanY > 0 && map[pacmanY - 1][pacmanX] == 3) {
                     pacmanY--;
                 } else if (pacmanY == 0) {
                     pacmanY = map.length - 1;
                 }
             }
             case DOWN -> {
-                if (pacmanY < map.length - 1 && map[pacmanY + 1][pacmanX] == 0) {
+                if (pacmanY < map.length - 1 && map[pacmanY + 1][pacmanX] == 0 || pacmanY > 0 && map[pacmanY + 1][pacmanX] == 3) {
                     pacmanY++;
                 } else if (pacmanY == map.length - 1) {
                     pacmanY = 0;

@@ -43,7 +43,6 @@ public class GameOver extends JFrame {
                 input.trim().replaceAll("\\s+", " ");
                 dispose();
                 if(!input.isEmpty()){
-                    System.out.println("User input: " + input);
                     WriteScore.writeScore(input, score);
                 }
                 new StartMenu();

@@ -1,8 +1,6 @@
 package Game;
 
-import Game.Ghost.Blinky;
-import Game.Ghost.Ghost;
-import Game.Ghost.Inky;
+import Game.Ghost.*;
 import Game.Pacman.Pacman;
 
 import javax.swing.*;
@@ -21,21 +19,26 @@ public class GamePanel extends JPanel implements Runnable {
     Pacman pacman = new Pacman(7,7, tileSize);
     Blinky blinky = new Blinky(6,5, tileSize);
     Inky inky = new Inky(8, 5, tileSize);
-    Ghost[] ghosts = new Ghost[2];
+    Clyde clyde = new Clyde(8, 5, tileSize);
+    Pinky pinky = new Pinky(7,5, tileSize);
+    Ghost[] ghosts = new Ghost[4];
     Dot[] dots = new Dot[0];
     int lifes = 0;
     int ghostChangeCount = 0;
+    public double seconds = 0;
 
     public GamePanel(JFrame frame) {
         setFocusable(true);
         pacman.getRightImage();
 
         this.score = 0;
-        System.out.println(score);
         this.frame = frame;
         this.lifes = 3;
+        this.seconds = 0;
         ghosts[0] = blinky;
         ghosts[1] = inky;
+        ghosts[2] = clyde;
+        ghosts[3] = pinky;
 
         fillDots();
 
@@ -70,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (run) {
+            seconds += 0.1;
             if (dots.length == 0){
                 try{
                     Thread.sleep(300);
@@ -109,11 +113,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        String scoreText = "Score: " + Integer.toString(score);
-        String lifesText=  "Lifes: " + Integer.toString(lifes);
+        String scoreText = "Score: " + score;
+        String lifesText =  "Lifes: " + lifes;
+        String secondsText = "Seconds: " + (int)seconds;
         g.setColor(Color.WHITE);
         g.drawString(scoreText, 5*tileSize, 10*tileSize);
         g.drawString(lifesText, 3*tileSize, 10*tileSize);
+        g.drawString(secondsText, 7*tileSize, 10*tileSize);
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[row].length; col++) {
                 if (map[row][col] == 1) {
@@ -130,6 +136,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
         blinky.draw(g2d, this);
         inky.draw(g2d, this);
+        clyde.draw(g2d, this);
+        pinky.draw(g2d, this);
         pacman.draw(g2d, this);
         for (Dot d: dots){
             d.draw(g2d, this);
@@ -139,20 +147,19 @@ public class GamePanel extends JPanel implements Runnable {
     public void pacmanOnGhost(){
         for (Ghost ghost : ghosts) {
             if (pacman.pacmanX == ghost.ghostX && pacman.pacmanY == ghost.ghostY && !ghost.killable) {
-                if (lifes == 0) {
-                    frame.dispose();
-                    run = false;
-                    gameOver.setVisible(true);
-                    gameOver.score = score;
-                    System.out.println(score);
-                    break;
-                }
-                lifes--;
                 try{
                     Thread.sleep(300);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
+                if (lifes == 0) {
+                    frame.dispose();
+                    run = false;
+                    gameOver.setVisible(true);
+                    gameOver.score = score;
+                    break;
+                }
+                lifes--;
                 restart();
             } else if (pacman.pacmanX == ghost.ghostX && pacman.pacmanY == ghost.ghostY && ghost.killable) {
                 ghost.ghostX = 6;
@@ -209,9 +216,6 @@ public class GamePanel extends JPanel implements Runnable {
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[row].length; col++) {
                 if (map[row][col] == 0) {
-                    if (row == 3 && col == 0 || row == 4 && col == 0 || row == 5 && col == 0 || row == 3 && col == map[row].length - 1 || row == 4 && col == map[row].length - 1 || row == 5 && col == map[row].length - 1 || row == 5 && col == 6 || row == 5 && col == 7 || row == 5 && col == 8) {
-                        continue;
-                    }
                     if (row == 1 && col == 1 || row == map.length - 2 && col == 1 || row == 1 && col == map[0].length - 2 || row == map.length - 2 && col == map[0].length - 2){
                         Dot dot = new Dot(col, row, tileSize, true);
                         dots = appendDot(dots, dot);
@@ -230,11 +234,21 @@ public class GamePanel extends JPanel implements Runnable {
         pacman.pacmanY = 7;
         pacman.direction = Pacman.Direction.RIGHT;
         pacman.getRightImage();
+
+        blinky.killable = false;
         blinky.ghostX = 6;
         blinky.ghostY = 5;
+
+        pinky.killable = false;
+        pinky.ghostX = 6;
+        pinky.ghostY = 5;
+
+        inky.killable = false;
         inky.ghostX = 8;
         inky.ghostY = 5;
-        blinky.killable = false;
-        inky.killable = false;
+
+        clyde.killable = false;
+        clyde.ghostX = 7;
+        clyde.ghostY = 5;
     }
 }

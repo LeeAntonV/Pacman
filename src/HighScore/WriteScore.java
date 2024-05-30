@@ -10,9 +10,8 @@ public class WriteScore {
             String text = score + " " + name + "\n";
             writer.write(text);
             writer.close();
-            System.out.println("Text written to file successfully.");
         } catch (IOException e) {
-            System.err.println("Error writing text to file: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
