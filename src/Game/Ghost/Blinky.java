@@ -8,8 +8,8 @@ import java.util.Objects;
 
 public class Blinky extends Ghost {
     public int tileSize = 0;
-    public Blinky(int x, int y, int tileSize) {
-        super(x, y);
+    public Blinky(int x, int y, int tileSize, int[][] map) {
+        super(x, y, map);
         this.killable = false;
         this.tileSize = tileSize;
     }

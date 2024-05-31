@@ -9,7 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Pacman extends Entity {
+public class Pacman extends Entity implements Runnable{
     public enum Direction{
         RIGHT,
         LEFT,
@@ -19,16 +19,17 @@ public class Pacman extends Entity {
 
     private final int tileSize = 56;
     public Direction direction = Direction.RIGHT;
-    private int[][] map = CreateMap.createMap();
+    private int[][] map = new int[][]{};
     private Image image;
     public int idx = 1;
     public int pacmanX = 0;
     public int pacmanY = 0;
 
-    public Pacman(int x, int y, int tileSize) {
+    public Pacman(int x, int y, int tileSize, int[][] map) {
         super(x, y);
         pacmanX = x;
         pacmanY = y;
+        this.map = map;
     }
 
     public void getUpImage(){
@@ -137,5 +138,14 @@ public class Pacman extends Entity {
             }
         }
         g.drawImage(image, pacmanX * tileSize, pacmanY * tileSize, tileSize, tileSize, panel);
+    }
+
+    @Override
+    public void run() {
+        try{
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

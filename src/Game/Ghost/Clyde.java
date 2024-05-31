@@ -8,8 +8,8 @@ import java.util.Objects;
 
 public class Clyde extends Ghost {
     public int tileSize = 0;
-    public Clyde(int x, int y, int tileSize) {
-        super(x, y);
+    public Clyde(int x, int y, int tileSize, int[][] map) {
+        super(x, y, map);
         this.killable = false;
         this.tileSize = tileSize;
     }

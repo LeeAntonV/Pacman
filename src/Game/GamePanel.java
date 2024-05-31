@@ -11,16 +11,15 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel implements Runnable {
     private final static int[][] map = CreateMap.createMap();
     private static final int tileSize = 56;
-    private int ghostCount = 0;
 
     public int score = 0;
     GameOver gameOver = new GameOver();
     public JFrame frame = null;
-    Pacman pacman = new Pacman(7,7, tileSize);
-    Blinky blinky = new Blinky(6,5, tileSize);
-    Inky inky = new Inky(8, 5, tileSize);
-    Clyde clyde = new Clyde(8, 5, tileSize);
-    Pinky pinky = new Pinky(7,5, tileSize);
+    Pacman pacman = new Pacman(7,7, tileSize, map);
+    Blinky blinky = new Blinky(6,5, tileSize, map);
+    Inky inky = new Inky(8, 5, tileSize, map);
+    Clyde clyde = new Clyde(8, 5, tileSize, map);
+    Pinky pinky = new Pinky(7,5, tileSize, map);
     Ghost[] ghosts = new Ghost[4];
     Dot[] dots = new Dot[0];
     int lifes = 0;
@@ -40,6 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
         ghosts[2] = clyde;
         ghosts[3] = pinky;
 
+        new Thread(this).start();
+        for (Ghost ghost: ghosts){
+            new Thread(ghost).start();
+        }
         fillDots();
 
         addKeyListener(new KeyAdapter() {
@@ -91,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
                     ghostChangeCount = 0;
                 }
             }
-            pacman.updatePacmanPosition();
+//            pacman.updatePacmanPosition();
             pacmanOnGhost();
             pacmanOnDot();
             if (pacman.idx == 3) {
@@ -167,11 +170,6 @@ public class GamePanel extends JPanel implements Runnable {
                 ghost.killable = false;
                 score += 200;
             }
-            if (ghostCount == 5){
-                ghost.move(map);
-                ghostCount = 0;
-            }
-            ghostCount++;
         }
     }
 

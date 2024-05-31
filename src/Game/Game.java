@@ -19,8 +19,7 @@ public class Game extends JFrame {
         panel.setBackground(Color.BLACK);
         add(panel);
 
-        Thread thread = new Thread(panel);
-        thread.start();
+        new Thread(panel).start();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
