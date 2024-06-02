@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class HighScore extends JPanel implements Serializable {
 
@@ -21,6 +22,12 @@ public class HighScore extends JPanel implements Serializable {
 
         String score = readFile();
         String[] scores = score.split("\\n");
+        Arrays.sort(scores, (s1, s2) -> {
+            int score1 = Integer.parseInt(s1.split(" ")[0]);
+            int score2 = Integer.parseInt(s2.split(" ")[0]);
+            return Integer.compare(score2, score1);
+        });
+
         for (String s : scores) {
             listModel.addElement(s);
         }

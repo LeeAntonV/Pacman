@@ -1,4 +1,4 @@
-package Game;
+package Game.CreateMap;
 
 public class CreateMap {
     public static int[][] createMap(int mapIdx) {

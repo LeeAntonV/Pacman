@@ -1,6 +1,5 @@
 package Game.Pacman;
 
-import Game.CreateMap;
 import Game.Entity;
 
 import javax.imageio.ImageIO;
@@ -24,7 +23,7 @@ public class Pacman extends Entity implements Runnable{
     public int idx = 1;
     public int pacmanX = 0;
     public int pacmanY = 0;
-    public int speed = 100;
+    public int speed = 150;
 
     public Pacman(int x, int y, int tileSize, int[][] map) {
         super(x, y);

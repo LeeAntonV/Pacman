@@ -1,5 +1,8 @@
 package Game;
 
+import Game.CreateMap.CreateMap;
+import Game.Dot.Dot;
+import Game.GameOver.GameOver;
 import Game.Ghost.*;
 import Game.Pacman.Pacman;
 

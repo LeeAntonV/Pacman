@@ -1,4 +1,4 @@
-package Game;
+package Game.GameOver;
 import HighScore.WriteScore;
 import StartMenu.StartMenu;
 

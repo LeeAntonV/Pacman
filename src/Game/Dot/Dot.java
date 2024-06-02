@@ -1,4 +1,6 @@
-package Game;
+package Game.Dot;
+
+import Game.Entity;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -6,7 +8,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Dot extends Entity{
+public class Dot extends Entity {
     public int dotX = 0;
     public int dotY = 0;
     public int tileSize = 0;
