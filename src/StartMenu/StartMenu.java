@@ -39,7 +39,7 @@ public class StartMenu extends JFrame {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Game game = new Game();
+                Game game = new Game(5);
                 game.setVisible(true);
                 dispose();
             }

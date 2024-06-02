@@ -7,12 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.ImageProducer;
 
 public class GamePanel extends JPanel implements Runnable {
-    public static int mapSize = 1;
-    private final static int[][] map = CreateMap.createMap(mapSize);
+    private int[][] map = null;
     private static final int tileSize = 56;
+    private static int statY = 0;
 
     GameOver gameOver = new GameOver();
 
@@ -33,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     public double seconds = 0;
     public int score = 0;
 
-    public GamePanel(JFrame frame) {
+    public GamePanel(JFrame frame, int mapSize) {
         setFocusable(true);
         pacman.getRightImage();
 
@@ -41,6 +40,23 @@ public class GamePanel extends JPanel implements Runnable {
         this.frame = frame;
         this.lifes = 3;
         this.seconds = 0;
+        this.map = CreateMap.createMap(mapSize);
+        pacman.map = CreateMap.createMap(mapSize);
+        blinky.map = CreateMap.createMap(mapSize);
+        inky.map = CreateMap.createMap(mapSize);
+        clyde.map = CreateMap.createMap(mapSize);
+        pinky.map = CreateMap.createMap(mapSize);
+        if (mapSize == 1){
+            statY = 10;
+        } else if(mapSize == 2){
+            statY = 12;
+        } else if(mapSize == 3){
+            statY = 14;
+        } else if (mapSize == 4){
+            statY = 16;
+        } else if (mapSize == 5){
+            statY = 18;
+        }
         ghosts[0] = blinky;
         ghosts[1] = inky;
         ghosts[2] = clyde;
@@ -126,9 +142,9 @@ public class GamePanel extends JPanel implements Runnable {
         String lifesText =  "Lifes: " + lifes;
         String secondsText = "Seconds: " + (int)seconds;
         g.setColor(Color.WHITE);
-        g.drawString(scoreText, 5*tileSize, 10*tileSize);
-        g.drawString(lifesText, 3*tileSize, 10*tileSize);
-        g.drawString(secondsText, 7*tileSize, 10*tileSize);
+        g.drawString(scoreText, 5*tileSize, statY*tileSize);
+        g.drawString(lifesText, 3*tileSize, statY*tileSize);
+        g.drawString(secondsText, 7*tileSize, statY*tileSize);
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[row].length; col++) {
                 if (map[row][col] == 1) {

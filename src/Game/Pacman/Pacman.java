@@ -19,7 +19,7 @@ public class Pacman extends Entity implements Runnable{
 
     private final int tileSize = 56;
     public Direction direction = Direction.RIGHT;
-    private int[][] map = new int[][]{};
+    public int[][] map = new int[][]{};
     private Image image;
     public int idx = 1;
     public int pacmanX = 0;

@@ -6,16 +6,29 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JFrame {
-    public Game() {
+    int height = 0;
+    public Game(int mapSize) {
         setTitle("Game");
+        int height = 0;
 
-        setSize(840, 600);
+        if (mapSize == 1) {
+            height = 600;
+        } else if (mapSize == 2) {
+            height = 700;
+        } else if (mapSize == 3) {
+            height = 800;
+        } else if (mapSize == 4) {
+            height = 930;
+        } else if (mapSize == 5) {
+            height = 1050;
+        }
+        setSize(840, height);
 
         setLocationRelativeTo(null);
 
         setResizable(false);
 
-        GamePanel panel = new GamePanel(this);
+        GamePanel panel = new GamePanel(this, mapSize);
         panel.setBackground(Color.BLACK);
         add(panel);
 

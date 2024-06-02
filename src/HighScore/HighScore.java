@@ -1,37 +1,37 @@
 package HighScore;
-
 import javax.swing.*;
-import java.awt.Graphics;
+import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
-public class HighScore extends JPanel {
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+public class HighScore extends JPanel implements Serializable {
 
-        String scores = readFile("src/HighScore/scores.txt");
-        String[] score = scores.split("\\n");
+    private JList<String> scoresList;
+    private DefaultListModel<String> listModel;
 
-        Arrays.sort(score, (s1, s2) -> {
-            int score1 = Integer.parseInt(s1.split(" ")[0]);
-            int score2 = Integer.parseInt(s2.split(" ")[0]);
-            return Integer.compare(score2, score1);
-        });
+    public HighScore() {
+        setLayout(new BorderLayout());
 
-        int centerY = 50;
-        int centerX = 350;
-        for (String s : score) {
-            g.drawString(s, centerX, centerY);
-            centerY += 20;
+        listModel = new DefaultListModel<>();
+        scoresList = new JList<>(listModel);
+        scoresList.setForeground(Color.YELLOW);
+        scoresList.setBackground(Color.BLACK);
+
+        String score = readFile();
+        String[] scores = score.split("\\n");
+        for (String s : scores) {
+            listModel.addElement(s);
         }
+
+        JScrollPane scrollPane = new JScrollPane(scoresList);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    private String readFile(String filePath) {
+    private String readFile() {
         try {
-            return new String(Files.readAllBytes(Paths.get(filePath)));
+            return new String(Files.readAllBytes(Paths.get("src/HighScore/scores.txt")));
         } catch (IOException e) {
             e.printStackTrace();
             return "";
