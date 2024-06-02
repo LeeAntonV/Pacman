@@ -24,6 +24,7 @@ public class Pacman extends Entity implements Runnable{
     public int idx = 1;
     public int pacmanX = 0;
     public int pacmanY = 0;
+    public int speed = 100;
 
     public Pacman(int x, int y, int tileSize, int[][] map) {
         super(x, y);
@@ -142,10 +143,13 @@ public class Pacman extends Entity implements Runnable{
 
     @Override
     public void run() {
-        try{
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(true) {
+            updatePacmanPosition();
+            try {
+                Thread.sleep(speed);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

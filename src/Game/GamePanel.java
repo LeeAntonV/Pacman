@@ -7,24 +7,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageProducer;
 
 public class GamePanel extends JPanel implements Runnable {
-    private final static int[][] map = CreateMap.createMap();
+    public static int mapSize = 1;
+    private final static int[][] map = CreateMap.createMap(mapSize);
     private static final int tileSize = 56;
 
-    public int score = 0;
     GameOver gameOver = new GameOver();
+
     public JFrame frame = null;
+
     Pacman pacman = new Pacman(7,7, tileSize, map);
+
     Blinky blinky = new Blinky(6,5, tileSize, map);
     Inky inky = new Inky(8, 5, tileSize, map);
     Clyde clyde = new Clyde(8, 5, tileSize, map);
     Pinky pinky = new Pinky(7,5, tileSize, map);
+
     Ghost[] ghosts = new Ghost[4];
     Dot[] dots = new Dot[0];
+
     int lifes = 0;
     int ghostChangeCount = 0;
     public double seconds = 0;
+    public int score = 0;
 
     public GamePanel(JFrame frame) {
         setFocusable(true);
@@ -39,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
         ghosts[2] = clyde;
         ghosts[3] = pinky;
 
-        new Thread(this).start();
+        new Thread(pacman).start();
         for (Ghost ghost: ghosts){
             new Thread(ghost).start();
         }
@@ -76,6 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (run) {
+            repaint();
             seconds += 0.1;
             if (dots.length == 0){
                 try{
@@ -85,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 restart();
             }
-            if (blinky.killable || inky.killable){
+            if (blinky.killable || inky.killable || clyde.killable || pinky.killable){
                 ghostChangeCount++;
                 if (ghostChangeCount == 50){
                     for (Ghost ghost: ghosts){
@@ -94,14 +102,12 @@ public class GamePanel extends JPanel implements Runnable {
                     ghostChangeCount = 0;
                 }
             }
-//            pacman.updatePacmanPosition();
             pacmanOnGhost();
             pacmanOnDot();
             if (pacman.idx == 3) {
                 pacman.idx = 0;
             }
             pacman.idx += 1;
-            repaint();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -198,6 +204,7 @@ public class GamePanel extends JPanel implements Runnable {
                 index++;
             }
         }
+
         return newDots;
     }
 
@@ -207,6 +214,7 @@ public class GamePanel extends JPanel implements Runnable {
             newDots[i] = dots[i];
         }
         newDots[newDots.length - 1] = dot;
+
         return newDots;
     }
 
