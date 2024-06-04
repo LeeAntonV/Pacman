@@ -113,19 +113,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (run) {
-            if (pacmanLabel != null){
-                remove(pacmanLabel);
-                remove(blinkyLabel);
-                remove(clydeLabel);
-                remove(inkyLabel);
-                remove(pinkyLabel);
-                remove(secondsLabel);
-                remove(lifesLabel);
-                remove(scoreLabel);
-                for(JLabel j: dotsLabel){
-                    remove(j);
-                }
-            }
+            addElements();
             repaint();
             seconds += 0.1;
             if (dots.length == 0){
@@ -134,10 +122,10 @@ public class GamePanel extends JPanel implements Runnable {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 }
-                if (pacman.speed > 50){
+                if (pacman.speed > 100){
                     pacman.speed -= 10;
                 }
-                if(ghosts[0].speed > 50) {
+                if(ghosts[0].speed > 100) {
                     for (Ghost ghost : ghosts) {
                         ghost.speed -= 20;
                     }
@@ -160,18 +148,27 @@ public class GamePanel extends JPanel implements Runnable {
             }
             pacman.idx += 1;
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if (pacmanLabel != null){
+                remove(pacmanLabel);
+                remove(blinkyLabel);
+                remove(clydeLabel);
+                remove(inkyLabel);
+                remove(pinkyLabel);
+                remove(secondsLabel);
+                remove(lifesLabel);
+                remove(scoreLabel);
+                for(JLabel j: dotsLabel){
+                    remove(j);
+                }
             }
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D) g;
+    protected void addElements() {
 
         String scoreText = "Score: " + score;
         String lifesText =  "Lifes: " + lifes;
