@@ -18,7 +18,7 @@ public class HighScoreWindow extends JFrame {
         HighScore panel = new HighScore();
         panel.setBackground(Color.BLACK);
         panel.setForeground(Color.YELLOW);
-        add(panel, BorderLayout.CENTER);
+        add(panel);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

@@ -23,7 +23,7 @@ public class Pacman extends Entity implements Runnable{
     public int idx = 1;
     public int pacmanX = 0;
     public int pacmanY = 0;
-    public int speed = 150;
+    public int speed = 200;
 
     public Pacman(int x, int y, int tileSize, int[][] map) {
         super(x, y);
@@ -122,7 +122,7 @@ public class Pacman extends Entity implements Runnable{
         }
     }
 
-    public void draw(Graphics g, JPanel panel) {
+    public JLabel drawImage(){
         switch (direction) {
             case RIGHT -> {
                 getRightImage();
@@ -137,7 +137,13 @@ public class Pacman extends Entity implements Runnable{
                 getDownImage();
             }
         }
-        g.drawImage(image, pacmanX * tileSize, pacmanY * tileSize, tileSize, tileSize, panel);
+        ImageIcon icon = new ImageIcon(image);
+        Image scaledImage = icon.getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(pacmanX*tileSize, pacmanY * tileSize, tileSize, tileSize);
+
+        return label;
     }
 
     @Override

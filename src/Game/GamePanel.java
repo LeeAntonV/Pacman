@@ -19,6 +19,15 @@ public class GamePanel extends JPanel implements Runnable {
     GameOver gameOver = new GameOver();
 
     public JFrame frame = null;
+    public JLabel pacmanLabel = null;
+    public JLabel blinkyLabel = null;
+    public JLabel clydeLabel = null;
+    public JLabel inkyLabel = null;
+    public JLabel pinkyLabel = null;
+    public JLabel scoreLabel = null;
+    public JLabel secondsLabel = null;
+    public JLabel lifesLabel = null;
+    public JLabel[] dotsLabel = new JLabel[0];
 
     Pacman pacman = new Pacman(7,7, tileSize, map);
 
@@ -39,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         pacman.getRightImage();
 
+        setLayout(null);
         this.score = 0;
         this.frame = frame;
         this.lifes = 3;
@@ -50,15 +60,15 @@ public class GamePanel extends JPanel implements Runnable {
         clyde.map = CreateMap.createMap(mapSize);
         pinky.map = CreateMap.createMap(mapSize);
         if (mapSize == 1){
-            statY = 10;
+            statY = 9;
         } else if(mapSize == 2){
-            statY = 12;
+            statY = 11;
         } else if(mapSize == 3){
-            statY = 14;
+            statY = 13;
         } else if (mapSize == 4){
-            statY = 16;
+            statY = 15;
         } else if (mapSize == 5){
-            statY = 18;
+            statY = 17;
         }
         ghosts[0] = blinky;
         ghosts[1] = inky;
@@ -70,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
             new Thread(ghost).start();
         }
         fillDots();
+        drawWalls();
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -102,6 +113,19 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (run) {
+            if (pacmanLabel != null){
+                remove(pacmanLabel);
+                remove(blinkyLabel);
+                remove(clydeLabel);
+                remove(inkyLabel);
+                remove(pinkyLabel);
+                remove(secondsLabel);
+                remove(lifesLabel);
+                remove(scoreLabel);
+                for(JLabel j: dotsLabel){
+                    remove(j);
+                }
+            }
             repaint();
             seconds += 0.1;
             if (dots.length == 0){
@@ -109,6 +133,14 @@ public class GamePanel extends JPanel implements Runnable {
                     Thread.sleep(300);
                 } catch (InterruptedException e){
                     e.printStackTrace();
+                }
+                if (pacman.speed > 50){
+                    pacman.speed -= 10;
+                }
+                if(ghosts[0].speed > 50) {
+                    for (Ghost ghost : ghosts) {
+                        ghost.speed -= 20;
+                    }
                 }
                 restart();
             }
@@ -144,31 +176,35 @@ public class GamePanel extends JPanel implements Runnable {
         String scoreText = "Score: " + score;
         String lifesText =  "Lifes: " + lifes;
         String secondsText = "Seconds: " + (int)seconds;
-        g.setColor(Color.WHITE);
-        g.drawString(scoreText, 5*tileSize, statY*tileSize);
-        g.drawString(lifesText, 3*tileSize, statY*tileSize);
-        g.drawString(secondsText, 7*tileSize, statY*tileSize);
-        for (int row = 0; row < map.length; row++) {
-            for (int col = 0; col < map[row].length; col++) {
-                if (map[row][col] == 1) {
-                    g.setColor(Color.BLUE);
-                    g.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-                } else if (map[row][col] == 2) {
-                    g.setColor(Color.CYAN);
-                    g.fillRect(col * tileSize, row * tileSize, tileSize, tileSize / 2);
-                } else {
-                    g.setColor(Color.BLACK);
-                    g.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-                }
-            }
+
+        JLabel scoreLabel = createText(scoreText,5*tileSize, statY*tileSize, tileSize);
+        add(scoreLabel);
+        this.scoreLabel = scoreLabel;
+
+        JLabel secondsLabel = createText(secondsText, 7*tileSize, statY*tileSize, tileSize);
+        add(secondsLabel);
+        this.secondsLabel = secondsLabel;
+
+        JLabel lifesLabel = createText(lifesText, 3*tileSize, statY*tileSize, tileSize);
+        add(lifesLabel);
+        this.lifesLabel = lifesLabel;
+
+        this.pacmanLabel = pacman.drawImage();
+        this.blinkyLabel = blinky.drawImage();
+        this.clydeLabel = clyde.drawImage();
+        this.inkyLabel = inky.drawImage();
+        this.pinkyLabel = pinky.drawImage();
+        add(pacmanLabel);
+        add(blinkyLabel);
+        add(clydeLabel);
+        add(inkyLabel);
+        add(pinkyLabel);
+        this.dotsLabel = new JLabel[dots.length];
+        for (int i = 0; i < dots.length; i++){
+            this.dotsLabel[i] = dots[i].drawImage();
         }
-        blinky.draw(g2d, this);
-        inky.draw(g2d, this);
-        clyde.draw(g2d, this);
-        pinky.draw(g2d, this);
-        pacman.draw(g2d, this);
-        for (Dot d: dots){
-            d.draw(g2d, this);
+        for (JLabel j: dotsLabel){
+            add(j);
         }
     }
 
@@ -275,5 +311,32 @@ public class GamePanel extends JPanel implements Runnable {
         clyde.killable = false;
         clyde.ghostX = 7;
         clyde.ghostY = 5;
+    }
+
+    public void drawWalls(){
+        for (int row = 0; row < map.length; row++) {
+            for (int col = 0; col < map[row].length; col++) {
+                if (map[row][col] == 1) {
+                    JLabel wall = new JLabel();
+                    wall.setBounds(col*tileSize, row*tileSize, tileSize, tileSize);
+                    wall.setBackground(Color.BLUE);
+                    wall.setOpaque(true);
+                    add(wall);
+                } else if (map[row][col] == 2) {
+                    JLabel gate = new JLabel();
+                    gate.setBounds(col*tileSize, row*tileSize, tileSize, tileSize/2);
+                    gate.setOpaque(true);
+                    gate.setBackground(Color.CYAN);
+                    add(gate);
+                }
+            }
+        }
+    }
+
+    public JLabel createText(String text, int x, int y, int tileSize){
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        label.setBounds(x, y, 200, tileSize);
+        return label;
     }
 }

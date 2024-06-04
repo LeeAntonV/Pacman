@@ -27,11 +27,23 @@ public class Dot extends Entity {
         }
     }
 
-    public void draw(Graphics g, JPanel panel) {
-        if (this.special) {
-            g.drawImage(image, this.dotX * tileSize - 25, this.dotY * tileSize - 25, tileSize + 50, tileSize + 50, panel);
-            return;
+    public JLabel drawImage(){
+        if (this.special){
+            ImageIcon icon = new ImageIcon(image);
+            Image scaledImage = icon.getImage().getScaledInstance(tileSize+50, tileSize+50, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JLabel label = new JLabel(scaledIcon);
+            label.setBounds(this.dotX*tileSize -25, this.dotY * tileSize - 25, tileSize + 50, tileSize + 50);
+
+            return label;
         }
-        g.drawImage(image, this.dotX * tileSize , this.dotY * tileSize , tileSize, tileSize, panel);
+
+        ImageIcon icon = new ImageIcon(image);
+        Image scaledImage = icon.getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(this.dotX*tileSize, this.dotY * tileSize, tileSize, tileSize);
+
+        return label;
     }
 }

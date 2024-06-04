@@ -18,22 +18,26 @@ public class GameOver extends JFrame {
 
         setResizable(false);
 
+
         JPanel panel = new JPanel();
         panel.setBackground(Color.BLACK);
         panel.setForeground(Color.YELLOW);
+        panel.setLayout(new BorderLayout());
 
-        JLabel messageLabel = new JLabel("Game Over");
+        JLabel messageLabel = new JLabel("Game Over! Type your name below to be in leaderboard!");
         messageLabel.setForeground(Color.YELLOW);
-        panel.add(messageLabel);
+        panel.add(messageLabel, BorderLayout.NORTH);
 
         JTextField inputField = new JTextField(20);
-        inputField.setPreferredSize(new Dimension(getWidth(), 20));
-        panel.add(inputField);
+        inputField.setForeground(Color.YELLOW);
+        inputField.setSize(400, 50);
+        inputField.setBackground(Color.GRAY);
+        panel.add(inputField, BorderLayout.CENTER);
 
         JButton okButton = new JButton("OK");
         okButton.setPreferredSize(new Dimension(getWidth(), 50));
         okButton.setBackground(Color.GREEN);
-        panel.add(okButton);
+        panel.add(okButton, BorderLayout.SOUTH);
 
         add(panel);
         okButton.addActionListener(new ActionListener() {

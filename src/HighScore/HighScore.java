@@ -7,13 +7,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import static java.awt.Component.CENTER_ALIGNMENT;
+
 public class HighScore extends JPanel implements Serializable {
 
     private JList<String> scoresList;
     private DefaultListModel<String> listModel;
 
     public HighScore() {
+        setBackground(Color.BLACK);
+
         setLayout(new BorderLayout());
+
+        setForeground(Color.YELLOW);
+        setBackground(Color.BLACK);
 
         listModel = new DefaultListModel<>();
         scoresList = new JList<>(listModel);

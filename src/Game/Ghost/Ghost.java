@@ -9,6 +9,7 @@ public class Ghost extends Entity implements Runnable {
     public int ghostX = 0;
     public int ghostY = 0;
     public int[][] map = new int[][]{};
+    public int speed = 500;
     public Ghost(int x, int y, int[][] map) {
         super(x, y);
         this.ghostX = x;
@@ -48,7 +49,7 @@ public class Ghost extends Entity implements Runnable {
         while (true) {
             move();
             try {
-                Thread.sleep(500);
+                Thread.sleep(speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

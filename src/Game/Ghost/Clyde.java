@@ -12,6 +12,7 @@ public class Clyde extends Ghost {
         super(x, y, map);
         this.killable = false;
         this.tileSize = tileSize;
+        setImage();
     }
 
     public Image defaultImage = null;
@@ -26,12 +27,23 @@ public class Clyde extends Ghost {
         }
     }
 
-    public void draw(Graphics g, JPanel panel) {
-        setImage();
+    public JLabel drawImage(){
         if (!this.killable){
-            g.drawImage(defaultImage, this.ghostX * tileSize, this.ghostY * tileSize, tileSize, tileSize, panel);
-            return;
+            ImageIcon icon = new ImageIcon(defaultImage);
+            Image scaledImage = icon.getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JLabel label = new JLabel(scaledIcon);
+            label.setBounds(ghostX*tileSize, ghostY * tileSize, tileSize, tileSize);
+
+            return label;
         }
-        g.drawImage(blueImage, this.ghostX * tileSize, this.ghostY * tileSize, tileSize, tileSize, panel);
+
+        ImageIcon icon = new ImageIcon(blueImage);
+        Image scaledImage = icon.getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(ghostX*tileSize, ghostY * tileSize, tileSize, tileSize);
+
+        return label;
     }
 }
