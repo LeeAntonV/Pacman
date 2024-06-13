@@ -40,6 +40,7 @@ public class HighScore extends JPanel implements Serializable {
         }
 
         JScrollPane scrollPane = new JScrollPane(scoresList);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(scrollPane, BorderLayout.CENTER);
     }
 
